@@ -28,7 +28,7 @@ logging:
 eureka:
     client:
         serviceUrl:
-            defaultZone: https://user:software1@localhost:5001/eureka-ds/eureka
+            defaultZone: https://user:software1@localhost:8443/eureka-ds/eureka
     instance:
         metadataMap:
             configPath: /eureka-ds/config
