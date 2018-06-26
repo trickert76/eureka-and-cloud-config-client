@@ -1,0 +1,74 @@
+buildscript {
+  ext {
+    springBootVersion = '2.0.2.RELEASE'
+  }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+  mavenCentral()
+  // Maven Spring Repository for Milestone Releases (optional for development but don't use it in Production)
+  maven { url 'https://repo.spring.io/libs-milestone-local' }
+  // Maven Spring Repository for Stable Releases
+  maven { url 'https://repo.spring.io/libs-release-local' }
+}
+
+dependencyManagement {
+  imports {
+    // define the dependency version (current stable is E..., but Spring Boot 2 needs version F...) 
+    mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.RC2'
+  }
+}
+
+dependencies {
+  // web
+  //compile('org.springframework.boot:spring-boot-starter')
+  compile("org.springframework.boot:spring-boot-starter") {
+    exclude module: "tomcat-embed-el"
+  }
+  compile('org.springframework.boot:spring-boot-starter-json')
+  //compile('org.springframework.boot:spring-boot-starter-web')
+  compile("org.springframework.boot:spring-boot-starter-web") {
+    exclude module: "spring-boot-starter-tomcat"
+  }
+  compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+  providedCompile('org.springframework.boot:spring-boot-starter-tomcat')
+  //providedCompile('org.springframework.boot:spring-boot-starter-undertow')
+
+  // configuration
+  compile('org.springframework.cloud:spring-cloud-starter-config')
+
+  // feign & hystrix
+  //compile('org.springframework.cloud:spring-cloud-starter-openfeign')
+  //compile('org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
+
+  // security
+  compile('org.springframework.boot:spring-boot-starter-security')
+  compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure')
+
+  // test environment
+  testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+bootRun {
+   jvmArgs = [ 
+     "-Djavax.net.ssl.trustStore=src/main/resources/keystore.p12", 
+     "-Djavax.net.ssl.trustStorePassword=changeit", 
+     "-Djavax.net.ssl.trustStoreType=PKCS12", 
+   ]
+}
+

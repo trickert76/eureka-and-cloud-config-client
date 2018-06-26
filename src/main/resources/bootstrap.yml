@@ -1,0 +1,35 @@
+spring:
+    application:
+        name: eureka-client
+        description: My Example Service
+    jmx:
+        default-domain: eureka-client
+    cloud:
+        config:
+            discovery:
+                enabled: true
+                serviceId: EUREKA-DISCOVERY-SERVICE
+            failFast: true
+            name: company
+            profile: settings
+
+http:
+    client:
+      ssl:
+          trust-store: classpath:keystore.p12
+          trust-store-password: changeit
+
+                                  
+logging:
+    level:
+        org.springframework: 'DEBUG'
+
+   
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: https://user:software1@localhost:5001/eureka-ds/eureka
+    instance:
+        metadataMap:
+            configPath: /eureka-ds/config
+

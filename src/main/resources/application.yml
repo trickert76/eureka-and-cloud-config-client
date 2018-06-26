@@ -1,0 +1,8 @@
+server:
+    port: 9998
+    ssl:
+        enabled: true
+        key-store: classpath:keystore.p12
+        key-store-password: changeit
+        key-store-type: PKCS12
+        keyAlias: eureka-client
